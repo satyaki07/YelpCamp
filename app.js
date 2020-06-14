@@ -17,7 +17,6 @@ var indexRoutes = require('./routes/index');
 const port = process.env.PORT || 3000;
 
 mongoose.connect("mongodb://localhost:27017/yelp_camp", {useNewUrlParser: true});
-
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
@@ -29,11 +28,6 @@ app.use(expressSession({
        resave: false,
        saveUninitialized: false
 }));
-
-app.use(indexRoutes);
-app.use(campgroundRoutes);
-app.use(commentRoutes);
-
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
@@ -44,6 +38,13 @@ app.use(function(req, res, next) {
        res.locals.currentUser = req.user;
        next();
 });
+app.use(indexRoutes);
+app.use(campgroundRoutes);
+app.use(commentRoutes);
+
+
+
+
 
 // Campground.create({
 //        name: 'Granite Hill',
