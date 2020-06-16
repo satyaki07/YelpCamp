@@ -3,6 +3,7 @@ var router = express.Router();
 var passport = require('passport');
 var User = require('../models/user');
 
+// Root route
 router.get("/", (req, res) => {
     res.render("landing");
 })
@@ -12,6 +13,7 @@ router.get("/register", (req, res) => {
     res.render("register");
 });
 
+// Signup logic route
 router.post("/register", (req, res) => {
     var newUser = new User({username: req.body.username});
     User.register(newUser, req.body.password, function(err, user) {
@@ -30,6 +32,7 @@ router.get("/login", (req, res) => {
     res.render("login");
 })
 
+// Login logic route
 router.post("/login", passport.authenticate("local", {
     successRedirect: "/campgrounds",
     failureRedirect: "/login"
@@ -42,6 +45,7 @@ router.get("/logout", (req, res) => {
     res.redirect("/campgrounds"); 
 })
 
+// Middleware
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
            return next();
