@@ -19,13 +19,14 @@ router.get("/", (req, res) => {
 router.post("/", middleware.isLoggedIn, (req, res) => {
     // Get data back from form and add to campgrounds array
     var name = req.body.name;
+    var price = req.body.price;
     var image = req.body.image;
     var desc = req.body.description;
     var author = {
         id: req.user._id,
         username: req.user.username
     };
-    var newCampground = {name, image, description: desc, author};
+    var newCampground = {name,price, image, description: desc, author};
     // Create a new campground and save that to DB
     Campground.create(newCampground, function(err, newlyCreated) {
            if (err) {
@@ -46,8 +47,9 @@ router.get("/new", middleware.isLoggedIn, (req, res) => {
 router.get("/:id", function(req, res){
     //find the campground with provided ID
     Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
-        if(err){
-            console.log(err);
+        if(err || !foundCampground){
+            req.flash("error", "Campground not found !");
+            res.redirect("back"); 
         } else {
            //  console.log(foundCampground)
             //render show template with that campground
