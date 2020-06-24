@@ -1,6 +1,5 @@
 .thumbnail img {
     width: 100%;
-
 }
 
 .thumbnail {
@@ -13,12 +12,4 @@
 
 .delete-form {
     display: inline;
-}
-
-@media (min-width: 768px) {
-    .thumbnail img {
-        object-fit: cover;
-        height: 200px;
-        width: 100%;
-    }
 }
