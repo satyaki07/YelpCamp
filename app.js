@@ -19,8 +19,10 @@ var indexRoutes = require('./routes/index');
 
 const port = process.env.PORT || 3000;
 
+const url = process.env.DATABASEURL || mongodb://localhost:27017/yelp_camp;
 // mongoose.connect("mongodb://localhost:27017/yelp_camp", {useNewUrlParser: true});
-mongoose.connect("mongodb+srv://bebeto:satyaki@1998@cluster0-2wmif.mongodb.net/yelpcamp?retryWrites=true&w=majority", {
+// mongodb+srv://bebeto:satyaki@1998@cluster0-2wmif.mongodb.net/yelpcamp?retryWrites=true&w=majority
+mongoose.connect(url, {
        useNewUrlParser: true,
        useCreateIndex: true
 }).then(() => {
