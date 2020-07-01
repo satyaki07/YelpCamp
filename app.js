@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -37,6 +39,7 @@ app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
 // seedDB();        //Seed the database
+app.locals.moment = require("moment");
 
 //PASSPORT CONFIG
 app.use(expressSession({

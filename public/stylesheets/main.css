@@ -21,3 +21,8 @@
         width: 100%;
     }
 }
+/*Google Map */
+#map {
+    height: 400px;
+    width: 100%;
+}
