@@ -115,6 +115,7 @@ router.delete("/:id", middleware.checkCampgroundOwnership, (req, res) => {
         if (err) {
             res.redirect("/campgrounds");
         } else {
+            req.flash("Campground deleted !")
             res.redirect("/campgrounds");
         }
     });
