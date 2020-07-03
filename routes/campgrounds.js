@@ -3,6 +3,7 @@ var router = express.Router();
 var Campground = require('../models/campground');
 var middleware = require("../middleware");
 var NodeGeocoder = require('node-geocoder');
+const { all } = require('.');
 
 var options = {
     provider: 'google',
@@ -15,14 +16,31 @@ var geocoder = NodeGeocoder(options);
 
 // Show all campgrounds
 router.get("/", (req, res) => {
-    // Get all campgrounds from DB
-    Campground.find({}, function (err, allCampgrounds) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.render("campgrounds/index", { campgrounds: allCampgrounds, page: 'campgrounds' });
-        }
-    });
+    var noMatch = null;
+    if (req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        // Get campgrounds matching the search input
+        Campground.find({name:regex}, function(err, allCampgrounds) {
+            if (err) {
+                console.log(err);
+            } else {
+                if (allCampgrounds.length < 1) {
+                    noMatch = "No Campgrounds found, please try again.";
+                }
+                res.render("campgrounds/index", {campgrounds: allCampgrounds, noMatch});
+            }
+        });
+    } else {
+        // Get all campgrounds from DB
+        Campground.find({}, function (err, allCampgrounds) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.render("campgrounds/index", { campgrounds: allCampgrounds, page: 'campgrounds', noMatch});
+            }
+        });
+    }
+
 });
 
 //CREATE - add new campground to DB
@@ -120,5 +138,9 @@ router.delete("/:id", middleware.checkCampgroundOwnership, (req, res) => {
         }
     });
 });
+
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 module.exports = router;
