@@ -14,6 +14,7 @@ The website is build with Node.js, Express, MongoDB and BootStrap and also uses 
 * Search campground by name or location
 * Display campground location on Google Map.
 * Sort campgrounds by highest rating, most reviewed, lowest price, or highest price
+* View user profile and upload user avatar
 * Responsive web design
 
 ## Live Demo
